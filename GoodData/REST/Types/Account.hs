@@ -16,20 +16,22 @@ data PostUserLogin = -- {{{
     PostUserLogin { login, password ∷ STRING, remember ∷ BOOLEAN }
     deriving ( Show, Read )
 
-postUserLogin = $(deriveIsos ''PostUserLogin)
+isoPostUserLogin = $(deriveIsos ''PostUserLogin)
 
 instance Json PostUserLogin where
-    grammar = tagged "postUserLogin" $ postUserLogin . object (ignoreRest . prop "login" . prop "password" . prop "remember")
+    grammar = tagged "postUserLogin" $ isoPostUserLogin . object
+        ( ignoreRest . prop "login" . prop "password" . prop "remember" )
 
 ---- }}}
 data UserLogin = -- {{{
     UserLogin { state, profile ∷ URISTRING, token ∷ Maybe STRING }
     deriving ( Show, Read )
 
-userLogin = $(deriveIsos ''UserLogin)
+isoUserLogin = $(deriveIsos ''UserLogin)
 
 instance Json UserLogin where
-    grammar = tagged "userLogin" $ userLogin . object (ignoreRest . prop "state" . prop "profile" . optionalProp "token")
+    grammar = tagged "userLogin" $ isoUserLogin . object
+        ( ignoreRest . prop "state" . prop "profile" . optionalProp "token" )
 
 ---- }}}
 
