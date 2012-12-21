@@ -13,7 +13,8 @@ import Data.Conduit.List ( sinkNull )
 import Network.HTTP.Conduit ( withManager, Manager, responseBody, Response, def, CookieJar )
 
 import Data.Conduit.Aeson ( sinkFromJson' )
-import GoodData.REST.Types ( PostUserLogin(..), UserLogin(..), STRING, BOOLEAN(..) )
+import GoodData.REST.Types.Account
+import GoodData.REST.Types.Basic
 import Util.HTTP
 
 data Session = Session { baseUrl ∷ String, manager ∷ Manager, cookies ∷ CookieJar }
