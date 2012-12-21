@@ -4,7 +4,8 @@
 
 module GoodData.REST.Session
     ( secureUrl, withGoodData, GoodDataAction
-    , jsonCall, getCall, deleteCall
+    , jsonPostCall, jsonGetCall, getCall, deleteCall
+    , Response(..)
     ) where
 
 import Control.Monad.State ( evalStateT, StateT, get, gets, put )
@@ -40,20 +41,27 @@ http' req = do
     put $ session { cookies = cookies' }
     return res
 
-jsonCall ∷ ( Json a, Json b ) ⇒ String → a → GoodDataAction (Response b)
-jsonCall url value = do
+jsonPostCall ∷ ( Json a, Json b ) ⇒ String → a → GoodDataAction (Response b)
+jsonPostCall url value = do
     uri ← mkUri url
     res ← http' =<< jsonPost uri value
     retVal ← responseBody res $$ sinkFromJson'
     return $ const retVal `fmap` res
 
+jsonGetCall ∷ ( Json a ) ⇒ String → GoodDataAction (Response a)
+jsonGetCall url = do
+    uri ← mkUri url
+    res ← http' =<< jsonGet uri
+    retVal ← responseBody res $$ sinkFromJson'
+    return $ const retVal `fmap` res
+
 getCall uri = http' =<< plainGet =<< mkUri uri
 
-deleteCall uri = http' . setMethod "DELETE" =<< plainGet =<< mkUri uri
+deleteCall uri = http' =<< plainDelete =<< mkUri uri
 
 accountLogin ∷ STRING → STRING → GoodDataAction UserLogin
 accountLogin l p = fmap responseBody $
-    jsonCall "/gdc/account/login" $ PostUserLogin l p (BOOLEAN False)
+    jsonPostCall "/gdc/account/login" $ PostUserLogin l p (BOOLEAN False)
 
 accountToken ∷ GoodDataAction ()
 accountToken = do
