@@ -4,7 +4,7 @@
 
 module GoodData.REST.MD.Query where
 
-import GoodData.REST.Session
+import GoodData.Session
 import GoodData.REST.Types.MD.Query
 
 query ∷ String → String → GoodDataAction Query

@@ -1,7 +1,7 @@
 {-# LANGUAGE UnicodeSyntax #-}
 {-# OPTIONS_GHC -Wall #-}
 
-module GoodData.REST.Session
+module GoodData.Session
     ( secureUrl, withGoodData, GoodDataAction
     , jsonPostCall, jsonGetCall, getCall, deleteCall
     , Response(..)
