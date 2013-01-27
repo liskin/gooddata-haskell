@@ -1,8 +1,9 @@
 -- vim:set foldenable foldmethod=marker foldcolumn=2:
 
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE UnicodeSyntax #-}
-{-# OPTIONS_GHC -Wall #-}
+{-# OPTIONS_GHC -Wall -fno-warn-missing-signatures #-}
 
 module GoodData.REST.Types.Basic where
 
@@ -13,7 +14,7 @@ import Util.JSON
 
 newtype BOOLEAN = -- {{{
     BOOLEAN { fromBOOLEAN ∷ Bool }
-    deriving ( Show, Read )
+    deriving ( Show, Read, Eq, Ord, Enum, Bounded )
 
 instance FromJSON BOOLEAN where
     parseJSON x = (BOOLEAN . toEnum) `fmap` parseJSON x
@@ -23,6 +24,16 @@ instance ToJSON BOOLEAN where
 
 instance Json BOOLEAN where
     grammar = liftAeson
+
+-- }}}
+newtype INT = -- {{{
+    INT { fromINT ∷ Int }
+    deriving ( Show, Read, Eq, Ord, Enum, Bounded, Num, Integral, Real )
+
+isoINT = $(deriveIsos ''INT)
+
+instance Json INT where
+    grammar = isoINT . liftAeson
 
 -- }}}
 type DATETIME = STRING -- FIXME
