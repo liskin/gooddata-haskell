@@ -1,0 +1,20 @@
+name:                gooddata-haskell
+version:             0.1.0.85
+synopsis:            GoodData REST API
+homepage:            https://github.com/liskin/gooddata-haskell
+license:             BSD3
+license-file:        LICENSE
+author:              Tomas Janousek
+maintainer:          tomi@nomi.cz
+category:            Web
+build-type:          Simple
+cabal-version:       >=1.8
+
+library
+  exposed-modules:     GoodData.REST.Session, GoodData.REST.MD.Query,
+                       GoodData.REST.Types.Account, GoodData.REST.Types.Basic, GoodData.REST.Types.MD.Query, GoodData.REST.Types.MD.Obj
+  other-modules:       Util.HTTP, Util.JSON, Data.Conduit.Aeson
+  build-depends:       base == 4.*, mtl == 2.*, transformers, time, bytestring, text,
+                       aeson == 0.6.*, JsonGrammar == 0.3.*,
+                       conduit == 0.4.*, http-conduit == 1.4.*, attoparsec-conduit ==0.4.*,
+                       loch-th
