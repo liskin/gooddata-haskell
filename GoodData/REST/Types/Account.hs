@@ -21,8 +21,8 @@ data PostUserLogin = -- {{{
 isoPostUserLogin = $(deriveIsos ''PostUserLogin)
 
 instance Json PostUserLogin where
-    grammar = tagged "postUserLogin" $ isoPostUserLogin . object
-        ( ignoreRest . prop "login" . prop "password" . prop "remember" )
+    grammar = isoPostUserLogin . object o . tag "postUserLogin"
+        where o = ignoreRest . prop "login" . prop "password" . prop "remember"
 
 ---- }}}
 data UserLogin = -- {{{
@@ -32,8 +32,8 @@ data UserLogin = -- {{{
 isoUserLogin = $(deriveIsos ''UserLogin)
 
 instance Json UserLogin where
-    grammar = tagged "userLogin" $ isoUserLogin . object
-        ( ignoreRest . prop "state" . prop "profile" . optionalProp "token" )
+    grammar = isoUserLogin . object o . tag "userLogin"
+        where o = ignoreRest . prop "state" . prop "profile" . optionalProp "token"
 
 ---- }}}
 

@@ -20,8 +20,8 @@ data Query = -- {{{
 isoQuery = $(deriveIsos ''Query)
 
 instance Json Query where
-    grammar = tagged "query" $ isoQuery . object
-        ( ignoreRest . prop "entries" . prop "meta" )
+    grammar = isoQuery . object o . tag "query"
+        where o = ignoreRest . prop "entries" . prop "meta"
 
 -- }}}
 data QueryMeta = -- {{{
@@ -31,7 +31,7 @@ data QueryMeta = -- {{{
 isoQueryMeta = $(deriveIsos ''QueryMeta)
 
 instance Json QueryMeta where
-    grammar = isoQueryMeta . object
-        ( ignoreRest . prop "summary" . prop "title" . prop "category" )
+    grammar = isoQueryMeta . object o
+        where o = ignoreRest . prop "summary" . prop "title" . prop "category"
 
 -- }}}

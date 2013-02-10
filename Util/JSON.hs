@@ -6,7 +6,7 @@ module Util.JSON
     ( module Control.Category
     , module Language.JsonGrammar
     , module Data.Iso
-    , tagged
+    , tag
     , optionalProp
     ) where
 
@@ -17,8 +17,8 @@ import Control.Category
 import Data.Iso hiding ( Endo, option )
 import Language.JsonGrammar
 
-tagged ∷ String → Iso (Value :- t) (a :- t) → Iso (Value :- t) (a :- t)
-tagged tag g = object (propBy g tag)
+tag ∷ String → Iso (Value :- t) (Value :- t)
+tag t = object (prop t)
 
 optionalProp ∷ ( Json a ) ⇒ String → Iso (Object :- t) (Object :- Maybe a :- t)
 optionalProp name = duck just . prop name <> duck nothing
