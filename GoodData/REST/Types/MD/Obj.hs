@@ -1,11 +1,13 @@
 -- vim:set foldenable foldmethod=marker foldcolumn=2:
 
+{-# LANGUAGE DeriveDataTypeable #-}
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE UnicodeSyntax #-}
 {-# OPTIONS_GHC -Wall -fno-warn-missing-signatures #-}
 
 module GoodData.REST.Types.MD.Obj where
 
+import Data.Data ( Data, Typeable )
 import GoodData.REST.Types.Basic
 import Prelude hiding ( id, (.) )
 import Util.JSON
@@ -27,7 +29,7 @@ data LINK = -- {{{
     , help ∷ Maybe URISTRING
     , identifier ∷ Maybe Identifier
     }
-    deriving ( Show, Read )
+    deriving ( Show, Read, Eq, Ord, Data, Typeable )
 
 isoLINK = $(deriveIsos ''LINK)
 

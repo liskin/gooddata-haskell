@@ -1,11 +1,13 @@
 -- vim:set foldenable foldmethod=marker foldcolumn=2:
 
+{-# LANGUAGE DeriveDataTypeable #-}
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE UnicodeSyntax #-}
 {-# OPTIONS_GHC -Wall -fno-warn-missing-signatures #-}
 
 module GoodData.REST.Types.Account where
 
+import Data.Data ( Data, Typeable )
 import GoodData.REST.Types.Basic
 import Prelude hiding ( id, (.) )
 import Util.JSON
@@ -14,7 +16,7 @@ import Util.JSON
 
 data PostUserLogin = -- {{{
     PostUserLogin { login, password ∷ STRING, remember ∷ BOOLEAN }
-    deriving ( Show, Read )
+    deriving ( Show, Read, Eq, Ord, Data, Typeable )
 
 isoPostUserLogin = $(deriveIsos ''PostUserLogin)
 
@@ -25,7 +27,7 @@ instance Json PostUserLogin where
 ---- }}}
 data UserLogin = -- {{{
     UserLogin { state, profile ∷ URISTRING, token ∷ Maybe STRING }
-    deriving ( Show, Read )
+    deriving ( Show, Read, Eq, Ord, Data, Typeable )
 
 isoUserLogin = $(deriveIsos ''UserLogin)
 
